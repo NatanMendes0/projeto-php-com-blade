@@ -1,0 +1,30 @@
+services:
+  app:
+    build: .
+    container_name: laravel-app
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/apache.conf:/etc/apache2/sites-available/000-default.conf
+    working_dir: /var/www/html
+    depends_on:
+      - mysql
+    environment:
+      APP_ENV: local
+    command: bash -lc "a2enmod rewrite && apache2-foreground"
+
+  mysql:
+    image: mysql:8.0
+    container_name: laravel-mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
