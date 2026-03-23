@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'node_inventory' => [
+        'base_url' => env('NODE_API_BASE_URL', 'http://node-app:3000/api/v1'),
+        'api_key' => env('NODE_API_KEY', ''),
+    ],
+
 ];

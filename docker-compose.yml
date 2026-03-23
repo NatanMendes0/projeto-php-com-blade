@@ -13,7 +13,33 @@ services:
       - mysql
     environment:
       APP_ENV: local
+      NODE_API_BASE_URL: http://node-app:3000/api/v1
+      NODE_API_KEY: local-node-api-key
     command: bash -lc "a2enmod rewrite && apache2-foreground"
+
+  node-app:
+    build:
+      context: ./node-inventory
+      dockerfile: Dockerfile
+    container_name: node-inventory-app
+    restart: always
+    ports:
+      - "3000:3000"
+    working_dir: /usr/src/app
+    volumes:
+      - ./node-inventory:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - mysql
+    environment:
+      APP_PORT: 3000
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: laravel
+      DB_USER: laravel
+      DB_PASSWORD: secret
+      NODE_API_KEY: local-node-api-key
+    command: sh -lc "npm install && npm run dev"
 
   mysql:
     image: mysql:8.0

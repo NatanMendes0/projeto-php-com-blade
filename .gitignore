@@ -23,4 +23,6 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 docker/mysql/mysql.sock
+node-inventory/node_modules
+node-inventory/.env
 
