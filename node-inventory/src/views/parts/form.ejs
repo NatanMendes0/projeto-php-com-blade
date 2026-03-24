@@ -1,0 +1,36 @@
+<%- include('../partials/header', { title }) %>
+
+<% if (errors && errors.length) { %>
+  <section class="alert error">
+    <ul>
+      <% errors.forEach((err) => { %>
+        <li><%= err.msg %></li>
+      <% }) %>
+    </ul>
+  </section>
+<% } %>
+
+<section class="form-wrapper">
+  <h2><%= mode === 'edit' ? 'Editar peca' : 'Cadastrar nova peca' %></h2>
+
+  <form method="POST" action="<%= mode === 'edit' ? `/parts/${partId}?_method=PUT` : '/parts' %>">
+    <label for="nome_peca">Nome da peca</label>
+    <input id="nome_peca" name="nome_peca" type="text" maxlength="255" required value="<%= formData.nome_peca || '' %>">
+
+    <label for="preco_custo">Preco de custo</label>
+    <input id="preco_custo" name="preco_custo" type="number" step="0.01" min="0" required value="<%= formData.preco_custo || '' %>">
+
+    <label for="preco_venda">Preco de venda</label>
+    <input id="preco_venda" name="preco_venda" type="number" step="0.01" min="0" required value="<%= formData.preco_venda || '' %>">
+
+    <label for="quantidade_disponivel">Quantidade disponivel</label>
+    <input id="quantidade_disponivel" name="quantidade_disponivel" type="number" min="0" step="1" required value="<%= formData.quantidade_disponivel || 0 %>">
+
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit"><%= submitLabel %></button>
+      <a class="btn btn-ghost" href="/parts">Cancelar</a>
+    </div>
+  </form>
+</section>
+
+<%- include('../partials/footer') %>

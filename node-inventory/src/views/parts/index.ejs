@@ -1,0 +1,44 @@
+<%- include('../partials/header', { title }) %>
+
+<% if (message) { %>
+  <section class="alert success"><%= message %></section>
+<% } %>
+
+<% if (!parts.length) { %>
+  <section class="empty-state">
+    <p>Nenhuma peca cadastrada ainda.</p>
+    <a class="btn btn-primary" href="/parts/new">Cadastrar primeira peca</a>
+  </section>
+<% } else { %>
+  <section class="cards-grid">
+    <% parts.forEach((part) => { %>
+      <article class="card">
+        <h2><%= part.nome_peca %></h2>
+
+        <dl class="metrics">
+          <div>
+            <dt>Preco de custo</dt>
+            <dd>R$ <%= Number(part.preco_custo).toFixed(2).replace('.', ',') %></dd>
+          </div>
+          <div>
+            <dt>Preco de venda</dt>
+            <dd>R$ <%= Number(part.preco_venda).toFixed(2).replace('.', ',') %></dd>
+          </div>
+          <div>
+            <dt>Quantidade disponivel</dt>
+            <dd><%= part.quantidade_disponivel %> un</dd>
+          </div>
+        </dl>
+
+        <div class="card-actions">
+          <a class="btn btn-secondary" href="/parts/<%= part.id %>/edit">Editar</a>
+          <form action="/parts/<%= part.id %>?_method=DELETE" method="POST" onsubmit="return confirm('Deseja realmente deletar esta peca?');">
+            <button class="btn btn-danger" type="submit">Deletar</button>
+          </form>
+        </div>
+      </article>
+    <% }) %>
+  </section>
+<% } %>
+
+<%- include('../partials/footer') %>
