@@ -6,8 +6,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./:/var/www/html
-      - ./docker/apache.conf:/etc/apache2/sites-available/000-default.conf
+      - ./src:/var/www/html
     working_dir: /var/www/html
     depends_on:
       - mysql
@@ -19,7 +18,7 @@ services:
     image: mysql:8.0
     container_name: laravel-mysql
     restart: always
-    command: --default-authentication-plugin=mysql_native_password
+    command: --default-authentication-plugin=mysql_native_password --skip-log-bin
     environment:
       MYSQL_DATABASE: laravel
       MYSQL_USER: laravel
